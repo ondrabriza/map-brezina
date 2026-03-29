@@ -14,7 +14,9 @@ if (read_only_vars.counter == 1)
 
 end
 
-
+%% Tasks 2-4 assumes different map and start position in setup
+% start_position = [10, 10, pi/2]; % (x, y, theta)
+% map_name = 'maps/std_map.txt';
 
 public_vars.lidar_log = [public_vars.lidar_log; read_only_vars.lidar_distances];
 public_vars.gnss_log = [public_vars.gnss_log; read_only_vars.gnss_position(:)'];
