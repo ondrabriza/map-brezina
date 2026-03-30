@@ -19,7 +19,7 @@ end
 % map_name = 'maps/std_map.txt';
 
 % Comment this for task 2-4
-%public_vars = plan_motion(read_only_vars, public_vars);
+public_vars = plan_motion(read_only_vars, public_vars);
 
 
 public_vars.lidar_log = [public_vars.lidar_log; read_only_vars.lidar_distances];
