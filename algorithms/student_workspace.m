@@ -14,9 +14,13 @@ if (read_only_vars.counter == 1)
 
 end
 
-%% Tasks 2-4 assumes different map and start position in setup
+%% Tasks 2-4 assumes different map, start position in setup and
 % start_position = [10, 10, pi/2]; % (x, y, theta)
 % map_name = 'maps/std_map.txt';
+
+% Comment this for task 2-4
+%public_vars = plan_motion(read_only_vars, public_vars);
+
 
 public_vars.lidar_log = [public_vars.lidar_log; read_only_vars.lidar_distances];
 public_vars.gnss_log = [public_vars.gnss_log; read_only_vars.gnss_position(:)'];
@@ -117,7 +121,7 @@ end
 % public_vars.path = plan_path(read_only_vars, public_vars);
 % 
 % 13. Plan next motion command
-public_vars = plan_motion(read_only_vars, public_vars);
+%public_vars = plan_motion(read_only_vars, public_vars);
 
 
 
