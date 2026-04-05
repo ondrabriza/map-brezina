@@ -1,7 +1,7 @@
 function [path] = plan_path(read_only_vars, public_vars)
 %PLAN_PATH Summary of this function goes here
 
-planning_required = 1;
+planning_required = 0;
 
 if planning_required
     
@@ -10,8 +10,12 @@ if planning_required
     path = smooth_path(path);
     
 else
-    
-    path = public_vars.path;
+    number_of_points = 50;
+    path = line_path([2,15],[5,25],number_of_points);
+    path = [path; line_path([5,25],[10,15],number_of_points)];
+    path = [path; arc_path([10,12.5], 2.5 ,pi/2,-pi/2,number_of_points)];
+    path = [path; arc_path([10,7.5], 2.5 ,pi/2,3*pi/2,number_of_points)];
+    path = [path; sine_path([10,5], [28,15], 2, 5, 2*number_of_points)];
     
 end
 

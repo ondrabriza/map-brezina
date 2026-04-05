@@ -114,11 +114,13 @@ end
 % % 10. Update Kalman filter
 % [public_vars.mu, public_vars.sigma] = update_kalman_filter(read_only_vars, public_vars);
 % 
-% % 11. Estimate current robot position
-% public_vars.estimated_pose = estimate_pose(public_vars); % (x,y,theta)
+% 11. Estimate current robot position
+%public_vars.estimated_pose = estimate_pose(public_vars); % (x,y,theta)
+public_vars.estimated_pose = read_only_vars.mocap_pose; % for week 2 assignment , we can use MoCap position
 % 
 % % 12. Path planning
-% public_vars.path = plan_path(read_only_vars, public_vars);
+public_vars.path = plan_path(read_only_vars, public_vars);
+
 % 
 % 13. Plan next motion command
 %public_vars = plan_motion(read_only_vars, public_vars);
