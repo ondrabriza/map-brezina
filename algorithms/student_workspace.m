@@ -11,6 +11,7 @@ if (read_only_vars.counter == 1)
     public_vars.lidar_log = [];
     public_vars.gnss_log = [];
     public_vars.motion_vector = [0, 0];
+    public_vars.path_planned = false;
 
 end
 
@@ -19,7 +20,7 @@ end
 % map_name = 'maps/std_map.txt';
 
 % Comment this for task 2-4
-public_vars = plan_motion(read_only_vars, public_vars);
+%public_vars = plan_motion(read_only_vars, public_vars);
 
 
 public_vars.lidar_log = [public_vars.lidar_log; read_only_vars.lidar_distances];
@@ -119,11 +120,13 @@ end
 public_vars.estimated_pose = read_only_vars.mocap_pose; % for week 2 assignment , we can use MoCap position
 % 
 % % 12. Path planning
-public_vars.path = plan_path(read_only_vars, public_vars);
-
+if public_vars.path_planned == false
+    public_vars.path_planned = true;
+    public_vars.path = plan_path(read_only_vars, public_vars);
+end
 % 
 % 13. Plan next motion command
-%public_vars = plan_motion(read_only_vars, public_vars);
+public_vars = plan_motion(read_only_vars, public_vars);
 
 
 
