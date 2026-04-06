@@ -4,5 +4,5 @@
 % start_position = [1, 1, pi/2]; % (x, y, theta)
 % map_name = 'maps/indoor_1.txt';
 
-start_position = [2, 15, 0]; % (x, y, theta)
+start_position = [2, 10, 0]; % (x, y, theta)
 map_name = 'maps/task2_motion_control_map.txt';
