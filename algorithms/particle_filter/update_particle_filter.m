@@ -15,9 +15,12 @@ for i=1:size(particles, 1)
 end
 weights = weight_particles(measurements, read_only_vars.lidar_distances);
 
-% III. Resampling
+% III.a. Resampling
 particles = resample_particles(particles, weights);
 
+% III.b.  Inject random particlesas as part of Resampling
+injection_rate = 0.0005;
+particles = inject_random_particles(particles, public_vars, read_only_vars, injection_rate);
 
 end
 
