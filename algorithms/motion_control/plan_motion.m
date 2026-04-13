@@ -4,10 +4,14 @@ function [public_vars] = plan_motion(read_only_vars, public_vars)
         public_vars.highest_idx = 1; 
     end
     
-    % get robot position
-    robot_x = read_only_vars.mocap_pose(1);
-    robot_y = read_only_vars.mocap_pose(2);
-    robot_theta = read_only_vars.mocap_pose(3);
+    % % get robot position
+    % robot_x = read_only_vars.mocap_pose(1);
+    % robot_y = read_only_vars.mocap_pose(2);
+    % robot_theta = read_only_vars.mocap_pose(3);
+
+    robot_x = public_vars.estimated_pose(1);
+    robot_y = public_vars.estimated_pose(2);
+    robot_theta = public_vars.estimated_pose(3);
 
     % get path
     path = public_vars.path;
@@ -16,27 +20,27 @@ function [public_vars] = plan_motion(read_only_vars, public_vars)
     lookahead_distance = 0.5;
     
     % Regulator parameters
-    base_wheel_speed = 1.0;
-    K_p = 1.2;
+    base_wheel_speed = 0.8;
+    K_p = 0.8;
     
     % Find all distances 
     distances = sqrt((path(:,1) - robot_x).^2 + (path(:,2) - robot_y).^2);
     
     % "forget" the path where the robot has already been 
-    search_start = public_vars.highest_idx;
+    %search_start = public_vars.highest_idx;
     
     % uncomment this if you want robot to ride path from start else it
     % starts in nearest point on the track
     %search_end = min(size(path, 1), search_start + 50);
     %[~, local_idx] = min(distances(search_start:search_end));
     
-    [~, local_idx] = min(distances(search_start:end));
-    closest_idx = search_start + local_idx - 1;
+    [~, closest_idx] = min(distances);
+    %closest_idx = search_start + local_idx - 1;
     
     
-    if closest_idx > public_vars.highest_idx
-        public_vars.highest_idx = closest_idx;
-    end
+    % if closest_idx > public_vars.highest_idx
+    %     public_vars.highest_idx = closest_idx;
+    % end
     
     % move the waypoint in front of the robot to the minimum lookahead distance
     target_idx = closest_idx;
