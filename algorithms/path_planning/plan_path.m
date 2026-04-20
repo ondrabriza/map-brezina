@@ -28,14 +28,22 @@ else
     % path = [path; line_path([9, 9], [28,15], number_of_points)];
 
     %indoor 3 map
+    % number_of_points = 50;
+    % path = line_path([1, 1], [7,6], number_of_points);
+    % path = [path; line_path([7,6], [7, 1], number_of_points)];
+    % path = [path; line_path([7, 1], [9, 1], number_of_points)];
+    % path = [path; line_path([9, 1], [9, 9.5], number_of_points)];
+    % path = [path; line_path([9, 9.5], [1,4], number_of_points)];
+    % path = [path; line_path([1,4], [1, 9], number_of_points)];
+    % path = [path; line_path([1,9], [3, 9], number_of_points)];
+
+    % outdoor 1 
+    % Počet bodů pro hladké vykreslení
     number_of_points = 50;
-    path = line_path([1, 1], [7,6], number_of_points);
-    path = [path; line_path([7,6], [7, 1], number_of_points)];
-    path = [path; line_path([7, 1], [9, 1], number_of_points)];
-    path = [path; line_path([9, 1], [9, 9.5], number_of_points)];
-    path = [path; line_path([9, 9.5], [1,4], number_of_points)];
-    path = [path; line_path([1,4], [1, 9], number_of_points)];
-    path = [path; line_path([1,9], [3, 9], number_of_points)];
+    path = arc_path([8,2], 6, pi, pi/2, number_of_points);
+    path = [path; line_path([8, 8], [15, 8], number_of_points)];
+    path = [path; arc_path([15, 7], 1, pi/2, 0, number_of_points)];
+    path = [path; line_path([16, 7], [16, 2], number_of_points)];
 
 
 

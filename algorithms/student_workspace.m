@@ -9,13 +9,17 @@ if (read_only_vars.counter == 1)
     %public_vars = init_kalman_filter(read_only_vars, public_vars);
 
     public_vars.lidar_log = [];
-    public_vars.gnss_log = [];
     public_vars.motion_vector = [0, 0];
     public_vars.path_planned = false;
 
-    public_vars.particles = init_particle_filter(read_only_vars, public_vars,read_only_vars.max_particles);
+    %public_vars.particles = init_particle_filter(read_only_vars, public_vars,read_only_vars.max_particles);
 
 
+end
+
+if (read_only_vars.counter > 50 && ~public_vars.kf_enabled )
+    public_vars = init_kalman_filter(read_only_vars, public_vars);
+    public_vars.kf_enabled = 1;
 end
 
 %% Tasks 2-4 assumes different map, start position in setup and
@@ -27,7 +31,6 @@ end
 
 
 public_vars.lidar_log = [public_vars.lidar_log; read_only_vars.lidar_distances];
-public_vars.gnss_log = [public_vars.gnss_log; read_only_vars.gnss_position(:)'];
 
 % if read_only_vars.counter == 500
 %     % Task 2
@@ -113,10 +116,12 @@ public_vars.gnss_log = [public_vars.gnss_log; read_only_vars.gnss_position(:)'];
 
 
 % % 9. Update particle filter
-public_vars.particles = update_particle_filter(read_only_vars, public_vars);
+%public_vars.particles = update_particle_filter(read_only_vars, public_vars);
 % 
 % % 10. Update Kalman filter
-% [public_vars.mu, public_vars.sigma] = update_kalman_filter(read_only_vars, public_vars);
+if public_vars.kf_enabled
+    [public_vars.mu, public_vars.sigma] = update_kalman_filter(read_only_vars, public_vars);
+end
 % 
 % 11. Estimate current robot position
 public_vars.estimated_pose = estimate_pose(public_vars); % (x,y,theta)
@@ -128,12 +133,12 @@ if public_vars.path_planned == false
 end
 % 
 % 13. Plan next motion command
-if read_only_vars.counter > 50
+if public_vars.kf_enabled
 
     public_vars = plan_motion(read_only_vars, public_vars);
 else
 
-    public_vars.motion_vector = [0.2,-0.2];
+    public_vars.motion_vector = [0,0];
 end
 
 
