@@ -1,15 +1,22 @@
 function [path] = plan_path(read_only_vars, public_vars)
 %PLAN_PATH Summary of this function goes here
 
-planning_required = 0;
+planning_required = 1;
 
 if planning_required
     
     path = astar(read_only_vars, public_vars);
     
     path = smooth_path(path);
+
     
 else
+    %figure;
+   
+    %imshow(read_only_vars.discrete_map.map);
+    %axis xy
+
+
     %task 2 map
     % number_of_points = 50;
     % path = line_path([2,15],[5,25],number_of_points);
