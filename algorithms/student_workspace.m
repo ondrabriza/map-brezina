@@ -17,7 +17,7 @@ if (read_only_vars.counter == 1)
 
 end
 
-if (read_only_vars.counter > 50 && ~public_vars.kf_enabled )
+if (read_only_vars.counter > 10 && ~public_vars.kf_enabled )
     public_vars = init_kalman_filter(read_only_vars, public_vars);
     public_vars.kf_enabled = 1;
 end
@@ -127,10 +127,12 @@ end
 public_vars.estimated_pose = estimate_pose(public_vars); % (x,y,theta)
 % 
 % % 12. Path planning
-if public_vars.path_planned == false
-    public_vars.path_planned = true;
-    public_vars.path = plan_path(read_only_vars, public_vars);
+path = plan_path(read_only_vars, public_vars);
+if ~isempty(path)
+    public_vars.path = path;
 end
+
+
 % 
 % 13. Plan next motion command
 if public_vars.kf_enabled
