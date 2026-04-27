@@ -2,10 +2,10 @@
 % map_name = 'maps/std_map.txt';
 
 % start_position = [1, 1, pi/2]; % (x, y, theta)
-%map_name = 'maps/indoor_3.txt';
+% map_name = 'maps/indoor_3.txt';
 
 start_position = [4, 2, -pi/4]; % (x, y, theta)
-map_name = 'maps/outdoor_1.txt';
+map_name = 'maps/outdoor_2.txt';
 
 public_vars.mu = [];
 public_vars.sigma = [];
