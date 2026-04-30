@@ -9,7 +9,7 @@ function [new_path] = smooth_path(old_path)
 
     % Smoothing parameters
     alpha = 0.2;   
-    beta = 0.8;    
+    beta = 0.7;   
     
     % number of iterations
     num_of_iterations = 5; 
