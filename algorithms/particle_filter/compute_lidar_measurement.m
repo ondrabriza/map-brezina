@@ -12,7 +12,7 @@ function [measurement] = compute_lidar_measurement(map, pose, lidar_config)
         ray_direction = particle_theta + lidar_config(i);
         
         % normalize to [0, 2*pi]
-        ray_direction = wrapTo2Pi(ray_direction);
+        ray_direction = mod(ray_direction,2*pi);
         
         % calc intersections
         intersections = ray_cast(ray_origin, walls, ray_direction);

@@ -31,7 +31,7 @@ function [new_pose] = predict_pose(old_pose, motion_vector, read_only_vars)
     new_y = max(limits(2), min(new_y, limits(4)));
 
     % normalize angle [0, 2*pi]
-    new_theta = wrapTo2Pi(new_theta);
+    new_theta = mod(new_theta, 2*pi);
 
     new_pose = [new_x, new_y, new_theta];
 end

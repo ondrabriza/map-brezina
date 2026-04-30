@@ -22,7 +22,7 @@ function [new_particles] = resample_particles(particles, weights)
         noise_vector = [0.05, 0.05, 0.01]; 
         new_particles(n, :) = particles(i, :) + randn(1, 3) .* noise_vector;
 
-        new_particles(n, 3) = wrapTo2Pi(new_particles(n, 3)); %theta in ragne [0, 2*pi]
+        new_particles(n, 3) = mod(new_particles(n, 3), 2*pi); %theta in ragne [0, 2*pi]
     end
 
 end
