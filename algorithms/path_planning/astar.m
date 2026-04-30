@@ -1,35 +1,28 @@
 function [path] = astar(read_only_vars, public_vars)
 %ASTAR Summary of this function goes here
-
     %init
     path = [];
-
     % Check if we have a valid pose (not empty, no NaNs)
     if isempty(public_vars.estimated_pose) || any(isnan(public_vars.estimated_pose))
         return; 
     end
-
     % map(1) == x=0, x=0
     map = read_only_vars.discrete_map.map;
     [map_size_y, map_size_x] = size(map);
-
     step = read_only_vars.map.discretization_step;
-
-
     % Bigger walls 
-    desired_clearance = 0.6;
+    desired_clearance = 0.2;
     kernel_size = 2 * ceil(desired_clearance/step) + 1;
     kernel = ones(kernel_size, kernel_size);
     blurred_map = conv2(map, kernel, 'same');
-    map(blurred_map > 0) = 1;
-
+    cost_map = conv2(blurred_map, kernel, 'same');
+    %map(blurred_map > 0) = 1;
     % Start position mapped to discrete mao
     start_pos = public_vars.estimated_pose; 
     start_discrete = floor(start_pos(1:2) / step) + 1;
     
     % discrete goal
     goal_discrete = read_only_vars.discrete_map.goal;
-
     % Safety checks for map boundaries and collisions
     if start_discrete(1) < 1 || start_discrete(1) > map_size_x || start_discrete(2) < 1 || start_discrete(2) > map_size_y
         %disp('Start position is out of map bounds!');
@@ -64,8 +57,6 @@ function [path] = astar(read_only_vars, public_vars)
     dx = [1, 1, 0, -1, -1, -1, 0, 1];
     dy = [0, 1, 1, 1, 1, 0, -1, -1];
     costs = [1, sqrt(1), 1, sqrt(1), 1, sqrt(1), 1, sqrt(1) ];
-
-
     while ~isempty(open_set)
         
         % Select node with the lowest f_score
@@ -83,7 +74,6 @@ function [path] = astar(read_only_vars, public_vars)
                 curr = [px, py];
                 path_discrete = [curr; path_discrete]; 
             end
-
             % Convert discrete path back to continuous
             path = (path_discrete - 0.5) * step;
             return; 
@@ -93,7 +83,6 @@ function [path] = astar(read_only_vars, public_vars)
         open_set(min_idx, :) = [];
         in_open_set(current(2), current(1)) = false;
         closed_set(current(2), current(1)) = true;
-
         % Explore all 8 neighbors
         for i = 1:8
             nx = current(1) + dx(i);
@@ -103,7 +92,7 @@ function [path] = astar(read_only_vars, public_vars)
             if nx >= 1 && nx <= map_size_x && ny >= 1 && ny <= map_size_y
                 
                 % Skip obstacles and nodes in closed_set
-                if map(ny, nx) == 1 || closed_set(ny, nx)
+                if map(ny, nx) >= 1 || closed_set(ny, nx)
                     continue;
                 end
                 
@@ -118,7 +107,11 @@ function [path] = astar(read_only_vars, public_vars)
                 end
                 
                 % Calculate tentative g_score
-                tentative_g = g_score(current(2), current(1)) + costs(i);
+                %tentative_g = g_score(current(2), current(1)) + costs(i);
+                proximity_penalty = cost_map(ny, nx) * 50; 
+                
+                % Přičteme cenu kroku + penalizaci za blízkost zdi
+                tentative_g = g_score(current(2), current(1)) + costs(i) + proximity_penalty;
                 
                 % If a shorter path to the neighbor is found
                 if tentative_g < g_score(ny, nx)
