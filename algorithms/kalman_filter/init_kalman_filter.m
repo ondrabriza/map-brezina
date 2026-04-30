@@ -8,7 +8,6 @@ function [public_vars] = init_kalman_filter(read_only_vars, public_vars)
                         0, 1, 0];
 
     public_vars.kf.Q = gnss_cov ;
-    disp(public_vars.kf.Q)
     public_vars.kf.R = diag([0.0005, 0.0005, 0.0001]);
     % public_vars.mu = [2,2,pi/2];
     % public_vars.sigma = zeros(3,3);
