@@ -2,12 +2,15 @@ function [weights] = weight_particles(particle_measurements, lidar_distances)
 %WEIGHT_PARTICLES Summary of this function goes here
   
     % set sigma of normal distribution
-    sigma = 0.15; 
-    
+    sigma = 0.2; 
+    min_prob = 0.0001;
+
     differences = particle_measurements - lidar_distances;
     
     % calc probabilities/weights 
     probabilities = norm_pdf(differences, 0, sigma); % using normal distribution func we wrote in previous week
+    
+    probabilities = max(probabilities, min_prob);
     weights = prod(probabilities, 2);
     weights(isnan(weights)) = 0;
     summ = sum(weights);
