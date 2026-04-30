@@ -1,6 +1,6 @@
-function [particles] = inject_random_particles(particles, public_vars, read_only_vars, injection_rate)
+function [particles] = inject_random_particles(particles, public_vars, read_only_vars)
     N = size(particles, 1);
-    N_random = round(N * injection_rate);
+    N_random = round(N * public_vars.injection_rate);
     
     if N_random > 0
 
