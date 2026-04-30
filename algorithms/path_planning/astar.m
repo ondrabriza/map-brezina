@@ -11,7 +11,7 @@ function [path] = astar(read_only_vars, public_vars)
     [map_size_y, map_size_x] = size(map);
     step = read_only_vars.map.discretization_step;
     % Bigger walls 
-    desired_clearance = 0.2;
+    desired_clearance = 0.4;
     kernel_size = 2 * ceil(desired_clearance/step) + 1;
     kernel = ones(kernel_size, kernel_size);
     blurred_map = conv2(map, kernel, 'same');
@@ -108,7 +108,7 @@ function [path] = astar(read_only_vars, public_vars)
                 
                 % Calculate tentative g_score
                 %tentative_g = g_score(current(2), current(1)) + costs(i);
-                proximity_penalty = cost_map(ny, nx) * 50; 
+                proximity_penalty = cost_map(ny, nx) * 100; 
                 
                 % Přičteme cenu kroku + penalizaci za blízkost zdi
                 tentative_g = g_score(current(2), current(1)) + costs(i) + proximity_penalty;
