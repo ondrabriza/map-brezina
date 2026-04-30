@@ -1,13 +1,5 @@
 function [public_vars] = plan_motion(read_only_vars, public_vars)
    
-    if ~isfield(public_vars, 'highest_idx')
-        public_vars.highest_idx = 1; 
-    end
-    
-    % % get robot position
-    % robot_x = read_only_vars.mocap_pose(1);
-    % robot_y = read_only_vars.mocap_pose(2);
-    % robot_theta = read_only_vars.mocap_pose(3);
 
     robot_x = public_vars.estimated_pose(1);
     robot_y = public_vars.estimated_pose(2);
@@ -20,7 +12,7 @@ function [public_vars] = plan_motion(read_only_vars, public_vars)
     lookahead_distance = 0.5;
     
     % Regulator parameters
-    base_wheel_speed = 0.8;
+    base_wheel_speed = 0.5;
     K_p = 0.8;
     
     % Find all distances 
