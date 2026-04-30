@@ -1,7 +1,7 @@
 function [public_vars] = plan_motion(read_only_vars, public_vars)
    
     if isempty(public_vars.path) % safety check
-        public_vars.motion_vector = [0, 0];
+        public_vars.motion_vector = [-0.1, 0.1]; % spin
         return; 
     end
     
